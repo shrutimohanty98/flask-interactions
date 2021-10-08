@@ -10,6 +10,12 @@
       <input type="file" name="image" id="image">
       <input type="submit" value="Submit form">
   </form>
+
+  {% if thanks %}
+    Thanks for submitting a file!
+  {% endif %}
+
+
   {% if digit %}
   <br>
   Thanks for the image!  It looks like a {{digit}}.

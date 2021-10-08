@@ -64,7 +64,19 @@ def ask():
             return render_template('ask.html')
 
 # File uploads and interfacing with complex Python
+# basic version
 
+@app.route('/submitdemo/', methods=['POST', 'GET'])
+def submitDemo():
+    if request.method == 'GET':
+        return render_template('submit.html')
+    else:
+        try:
+            return render_template('submit.html', thanks = True)
+        except:
+            return render_template('submit.html', error=True)
+
+# nontrivial version: makes a prediction and shows a viz
 @app.route('/submit/', methods=['POST', 'GET'])
 def submit():
     if request.method == 'GET':
@@ -100,9 +112,7 @@ def submit():
             return render_template('submit.html', digit=d, image=pngImageB64String)
         except:
             return render_template('submit.html', error=True)
-
-# Blueprints and interfacing with SQLite
-
+        
 app.register_blueprint(housewares_bp)
 app.teardown_appcontext(close_hw_db)
 
