@@ -1,0 +1,13 @@
+{% extends 'auth/base.html' %}
+
+{% block header %}
+  <h1>{% block title %}View all Users{% endblock %}</h1>
+{% endblock %}
+
+{% block auth_content %}
+  {% for user in users%}
+
+  <br><br> {{user[1]}} - {{user[2]}} - {{user[3][:20]}}
+
+  {% endfor %}
+{% endblock %}

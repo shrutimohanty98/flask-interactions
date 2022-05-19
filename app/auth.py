@@ -12,7 +12,7 @@ import string
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 def get_auth_db():
-    if 'db' not in g:
+    if 'auth_db' not in g:
         g.auth_db = sqlite3.connect('users.sqlite')
 
     return g.auth_db
@@ -25,6 +25,7 @@ def close_auth_db(e=None):
 
 # here's how we could initialize our SQL database using Flask
 def init_auth_db():
+    # define the schema for the users database
     db = get_auth_db()
 
     with current_app.open_resource('init.sql') as f:
@@ -124,3 +125,17 @@ def user():
         user = \
           db.execute('SELECT * FROM user WHERE id = ?', str(session['user_id'])).fetchone()
         return render_template('auth/user.html', username=user[1])
+
+
+@auth_bp.route('/view/')
+def view():
+    # dont have to check if logged in already
+    
+    # connect database 
+    db = get_auth_db()
+
+    # SQL command
+    users = db.execute("SELECT * FROM user LIMIT 20").fetchall()
+
+    # render template
+    return render_template('auth/view.html', users=users)
